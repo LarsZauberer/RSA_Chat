@@ -6,5 +6,5 @@ def encrypt(msg, key):
     raise NotImplementedError
 
 
-def decode(msg, key):
+def decrypt(msg, key):
     raise NotImplementedError
