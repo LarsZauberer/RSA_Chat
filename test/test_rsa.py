@@ -2,6 +2,19 @@ import pytest
 import library.rsa as rsa
 
 
+msg = "Password"
+key = (1556474179637557, 1367103444925663)
+encrypt = [960057070175399,
+           66557155100461,
+           1450898938892073,
+           1450898938892073,
+           569966601166030,
+           249689998197016,
+           1536751535232478,
+           584377230440379,
+           ]
+
+
 class Test_Create_Key:
     def test_1(self):
         test = False
@@ -9,7 +22,7 @@ class Test_Create_Key:
             rsa.createKey()
         except NotImplementedError:
             test = True
-        assert test is True
+        assert test is False
 
     def test_2(self):
         assert type(rsa.createKey()[0]) == tuple
@@ -47,40 +60,54 @@ class Test_Create_Key:
 
 
 class Test_Encrypt:
-    def __init__(self):
-        self.msg = "Password"
-        self.key = (1556474179637557, 1367103444925663)
-        self.encrypt = [960057070175399,
-                        66557155100461,
-                        1450898938892073,
-                        1450898938892073,
-                        569966601166030,
-                        249689998197016,
-                        1536751535232478,
-                        584377230440379,
-                        ]
-
     def test_1(self):
         test = False
         try:
-            rsa.encrypt(self.msg, self.key)
+            rsa.encrypt(msg, key)
         except NotImplementedError:
             test = True
-        assert test is True
+        assert test is False
 
     def test_2(self):
-        assert type(rsa.encrypt(self.msg, self.key)) == list
+        assert type(rsa.encrypt(msg, key)) == list
 
     def test_3(self):
         with pytest.raises(AssertionError):
-            rsa.encrypt(None, self.key)
+            rsa.encrypt(None, key)
 
     def test_4(self):
         with pytest.raises(AssertionError):
-            rsa.encrypt(self.msg, None)
+            rsa.encrypt(msg, None)
 
     def test_5(self):
-        assert len(rsa.encrypt(self.msg, self.key)) == 8
+        assert len(rsa.encrypt(msg, key)) == 8
 
     def test_6(self):
-        assert rsa.encrypt(self.msg, self.key) == self.encrypt
+        assert rsa.encrypt(msg, key) == encrypt
+
+
+class Test_Decrypt:
+    def test_1(self):
+        test = False
+        try:
+            rsa.decrypt(encrypt, key)
+        except NotImplementedError:
+            test = True
+        assert test is False
+
+    def test_2(self):
+        assert type(rsa.decrypt(encrypt, key)) == str
+
+    def test_3(self):
+        with pytest.raises(AssertionError):
+            rsa.decrypt(None, key)
+
+    def test_4(self):
+        with pytest.raises(AssertionError):
+            rsa.decrypt(encrypt, None)
+
+    def test_5(self):
+        assert len(rsa.decrypt(encrypt, key)) == 8
+
+    def test_6(self):
+        assert rsa.decrypt(encrypt, key) == msg
