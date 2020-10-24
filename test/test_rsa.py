@@ -44,22 +44,25 @@ class Test_Create_Key:
 
     def test_8(self):
         for _ in range(1000):
-            assert len(rsa.createKey()[0][0]) > 20
+            assert len(str(rsa.createKey()[0][0])) > 20
 
     def test_9(self):
         for _ in range(1000):
-            assert len(rsa.createKey()[0][1]) > 20
+            assert len(str(rsa.createKey()[0][1])) > 20
 
     def test_10(self):
         for _ in range(1000):
-            assert len(rsa.createKey()[1][0]) > 20
+            assert len(str(rsa.createKey()[1][0])) > 20
 
     def test_11(self):
         for _ in range(1000):
-            assert len(rsa.createKey()[1][1]) > 20
+            assert len(str(rsa.createKey()[1][1])) > 20
 
     def test_12(self):
         assert type(rsa.createKey()) == tuple
+
+    def test_13(self):
+        assert len(rsa.createKey()) == 2
 
 
 class Test_Encrypt:
@@ -114,3 +117,7 @@ class Test_Decrypt:
 
     def test_6(self):
         assert rsa.decrypt(encrypt, key) == msg
+
+    def test_7(self):
+        randMsg = "sdfdgg"
+        assert rsa.decrypt(rsa.encrypt(randMsg, key), key) == randMsg
