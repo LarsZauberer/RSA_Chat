@@ -58,6 +58,9 @@ class Test_Create_Key:
         for _ in range(1000):
             assert len(rsa.createKey()[1][1]) > 20
 
+    def test_12(self):
+        assert type(rsa.createKey()) == tuple
+
 
 class Test_Encrypt:
     def test_1(self):
