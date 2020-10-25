@@ -53,3 +53,32 @@ class Connection:
                             break
                     log.info(f"All data received!")
                     return data
+
+
+def listen(ip="0.0.0.0", port="4234"):
+    # Parameter assertion
+    assert type(ip) == str
+    assert len(ip) > 0
+    assert type(port) == str
+    assert len(port) > 0
+
+    # Search for connection
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        log.info(f"Start searching a connection")
+        s.bind(ip, port)
+        conn, addr = s.accept()
+        log.info(f"Found a connection: {addr}")
+        return Connection(addr)
+
+
+def connect(ip, port="4234"):
+    # Parameter assertion
+    assert type(ip) == str
+    assert len(ip) > 0
+    assert type(port) == str
+    assert len(port) > 0
+
+    # Start a connection
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((ip, port))
+        s.sendall(b"start connection")

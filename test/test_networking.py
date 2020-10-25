@@ -18,3 +18,39 @@ class Test_Connection:
     def test_send_1(self):
         with pytest.raises(AssertionError):
             con.send("Hello")
+
+
+class Test_listen:
+    def test_1(self):
+        with pytest.raises(AssertionError):
+            net.listen(None, "4234")
+
+    def test_2(self):
+        with pytest.raises(AssertionError):
+            net.listen("0.0.0.0", None)
+
+    def test_3(self):
+        with pytest.raises(AssertionError):
+            net.listen("0.0.0.0", "")
+
+    def test_4(self):
+        with pytest.raises(AssertionError):
+            net.listen("", "4234")
+
+
+class Test_connect:
+    def test_1(self):
+        with pytest.raises(AssertionError):
+            net.connect(None, "4234")
+
+    def test_2(self):
+        with pytest.raises(AssertionError):
+            net.connect("0.0.0.0", None)
+
+    def test_3(self):
+        with pytest.raises(AssertionError):
+            net.connect("0.0.0.0", "")
+
+    def test_4(self):
+        with pytest.raises(AssertionError):
+            net.connect("", "4234")
