@@ -5,7 +5,7 @@ log = logging.getLogger("Connection")
 
 
 class Connection:
-    def __init__(self, ip, port="4234"):
+    def __init__(self, ip, port=4234):
         """Connection class
 
         Args:
@@ -14,8 +14,8 @@ class Connection:
         # Assert parameters
         assert type(ip) == str
         assert len(ip) > 0
-        assert type(port) == str
-        assert len(port) > 0
+        assert type(port) == int
+        assert len(str(port)) > 0
 
         # Assigne variables
         self.ip = ip
@@ -34,7 +34,8 @@ class Connection:
             log.debug(f"Sending message {msg}")
             for index, item in enumerate(msg):
                 log.debug(f"Sending message package {index}")
-                s.sendall(item.decrypt('UTF-8'))
+                print(f"Sending: {item}")
+                s.sendall(bytes([item]))
             log.info(f"Message sent")
 
     def receive(self):
@@ -44,21 +45,21 @@ class Connection:
             list: The message as a list in bytes
         """
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            while True:
-                s.bind((self.ip, self.port))
-                s.listen()
-                conn, addr = s.accept()
-                log.info(f"Found connection")
-                with conn:
-                    data = []
-                    while True:
-                        new_data = conn.recv(1024)
-                        data.append(new_data)
-                        log.debug(f"Received package {len(data)}")
-                        if not new_data:
-                            break
-                    log.info(f"All data received!")
-                    return data
+            s.bind((self.ip, self.port))
+            s.listen()
+            conn, addr = s.accept()
+            log.info(f"Found connection")
+            with conn:
+                data = []
+                while True:
+                    new_data = conn.recv(1024)
+                    print(f"Received {new_data}")
+                    if not new_data:
+                        break
+                    data.append(int.from_bytes(new_data, "big"))
+                    log.debug(f"Received package {len(data)}")
+                log.info(f"All data received!")
+                print(data)
 
 
 def listen(ip="0.0.0.0", port="4234"):
@@ -103,3 +104,12 @@ def connect(ip, port="4234"):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((ip, port))
         s.sendall(b"start connection")
+
+
+if __name__ == "__main__":
+    con = Connection("192.168.27.161")
+    BE = input()
+    if BE == "send":
+        con.send([42, 32])
+    else:
+        con.receive()
