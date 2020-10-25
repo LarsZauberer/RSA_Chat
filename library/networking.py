@@ -34,7 +34,7 @@ class Connection:
             log.debug(f"Sending message {msg}")
             for index, item in enumerate(msg):
                 log.debug(f"Sending message package {index}")
-                s.sendall(item.decrypt('UTF-8'))
+                s.sendall(bytes(item))
             log.info(f"Message sent")
 
     def receive(self):
@@ -58,10 +58,10 @@ class Connection:
                         if not new_data:
                             break
                     log.info(f"All data received!")
-                    return data
+                    print(data)
 
 
-def listen(ip="0.0.0.0", port="4234"):
+def listen(con, ip="0.0.0.0", port="4234"):
     """Listen to all ip connections
 
     Args:
@@ -83,7 +83,7 @@ def listen(ip="0.0.0.0", port="4234"):
         s.bind(ip, port)
         conn, addr = s.accept()
         log.info(f"Found a connection: {addr}")
-        return Connection(addr)
+        con = Connection(addr)
 
 
 def connect(ip, port="4234"):
@@ -103,3 +103,16 @@ def connect(ip, port="4234"):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((ip, port))
         s.sendall(b"start connection")
+
+
+def ip_input(con_variable):
+    """Input field for the ip
+
+    Args:
+        con_variable (Connection variable): where the connection will be stored
+
+    """
+    print("IP to connect:")
+    ip = input()
+    connect(ip)
+    con_variable = Connection(ip)

@@ -20,22 +20,25 @@ class Test_Connection:
             con.send("Hello")
 
 
+con_var = None
+
+
 class Test_listen:
     def test_1(self):
         with pytest.raises(AssertionError):
-            net.listen(None, "4234")
+            net.listen(con_var, None, "4234")
 
     def test_2(self):
         with pytest.raises(AssertionError):
-            net.listen("0.0.0.0", None)
+            net.listen(con_var, "0.0.0.0", None)
 
     def test_3(self):
         with pytest.raises(AssertionError):
-            net.listen("0.0.0.0", "")
+            net.listen(con_var, "0.0.0.0", "")
 
     def test_4(self):
         with pytest.raises(AssertionError):
-            net.listen("", "4234")
+            net.listen(con_var, "", "4234")
 
 
 class Test_connect:
