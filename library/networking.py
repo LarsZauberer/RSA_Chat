@@ -5,15 +5,21 @@ log = logging.getLogger("Connection")
 
 
 class Connection:
-    def __init__(self, ip):
+    def __init__(self, ip, port="4234"):
         """Connection class
 
         Args:
             ip (str): The ip to connect to
         """
+        # Assert parameters
         assert type(ip) == str
+        assert len(ip) > 0
+        assert type(port) == str
+        assert len(port) > 0
+
+        # Assigne variables
         self.ip = ip
-        self.port = '4234'
+        self.port = port
         log.info(f"Created connection object with ip: {self.ip}")
 
     def send(self, msg):
