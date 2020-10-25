@@ -56,6 +56,15 @@ class Connection:
 
 
 def listen(ip="0.0.0.0", port="4234"):
+    """Listen to all ip connections
+
+    Args:
+        ip (str, optional): The ip to listen to. Defaults to "0.0.0.0".
+        port (str, optional): The port to listen to. Defaults to "4234".
+
+    Returns:
+        str: Address which connectedtd
+    """
     # Parameter assertion
     assert type(ip) == str
     assert len(ip) > 0
@@ -72,6 +81,12 @@ def listen(ip="0.0.0.0", port="4234"):
 
 
 def connect(ip, port="4234"):
+    """Connect to a ip
+
+    Args:
+        ip (str): Ip to connect to
+        port (str, optional): Port of the program. Defaults to "4234".
+    """
     # Parameter assertion
     assert type(ip) == str
     assert len(ip) > 0
