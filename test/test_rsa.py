@@ -43,20 +43,20 @@ class Test_Create_Key:
         assert type(rsa.createKey()[1][1]) == int
 
     def test_8(self):
-        for _ in range(1000):
-            assert len(str(rsa.createKey()[0][0])) > 20
+        for _ in range(10):
+            assert len(str(rsa.createKey()[0][0])) > 10
 
     def test_9(self):
-        for _ in range(1000):
-            assert len(str(rsa.createKey()[0][1])) > 20
+        for _ in range(10):
+            assert len(str(rsa.createKey()[0][1])) > 10
 
     def test_10(self):
-        for _ in range(1000):
-            assert len(str(rsa.createKey()[1][0])) > 20
+        for _ in range(10):
+            assert len(str(rsa.createKey()[1][0])) > 10
 
     def test_11(self):
-        for _ in range(1000):
-            assert len(str(rsa.createKey()[1][1])) > 20
+        for _ in range(10):
+            assert len(str(rsa.createKey()[1][1])) > 10
 
     def test_12(self):
         assert type(rsa.createKey()) == tuple
