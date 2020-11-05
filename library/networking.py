@@ -22,23 +22,27 @@ class Connection:
         self.port = port
         log.info(f"Created connection object with ip: {self.ip}")
 
-    def send(self, msg):
-        """Send a message
-
-        Args:
-            msg (list): message splited in chars
+    def client(self):
+        """Connect to a server
         """
-        assert type(msg) == list
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.ip, self.port))
-            log.debug(f"Sending message {msg}")
-            for index, item in enumerate(msg):
-                log.debug(f"Sending message package {index}")
-                print(f"Sending: {item}")
-                s.sendall(bytes([item]))
-            log.info(f"Message sent")
 
-    def receive(self):
+            def send(msg):
+                log.debug(f"Sending message {msg}")
+                for index, item in enumerate(msg):
+                    log.debug(f"Sending message package {index}")
+                    print(f"Sending: {item}")
+                    s.sendall(bytes([item]))
+                log.info(f"Message sent")
+
+            def listener():
+                print(s)
+                s.recv(1024)
+
+            return send, listener
+
+    def server(self):
         """Receive a message
 
         Returns:
@@ -49,17 +53,21 @@ class Connection:
             s.listen()
             conn, addr = s.accept()
             log.info(f"Found connection")
-            with conn:
-                data = []
-                while True:
-                    new_data = conn.recv(1024)
-                    print(f"Received {new_data}")
-                    if not new_data:
-                        break
-                    data.append(int.from_bytes(new_data, "big"))
-                    log.debug(f"Received package {len(data)}")
-                log.info(f"All data received!")
-                print(data)
+
+            def listener():
+                with conn:
+                    data = []
+                    while True:
+                        new_data = conn.recv(1024)
+                        print(f"Received {new_data}")
+                        if not new_data:
+                            break
+                        data.append(int.from_bytes(new_data, "big"))
+                        log.debug(f"Received package {len(data)}")
+                    log.info(f"All data received!")
+                    print(data)
+
+            return listener
 
 
 def listen(ip="0.0.0.0", port="4234"):
