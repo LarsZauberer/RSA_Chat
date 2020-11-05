@@ -9,15 +9,15 @@ class Test_Connection:
         assert con.ip == "192.168.0.1"
 
     def test_init_2(self):
-        assert con.port == "4234"
+        assert con.port == 4234
 
     def test_init_3(self):
         with pytest.raises(AssertionError):
             net.Connection(3)
 
-    def test_send_1(self):
+    def test_init_4(self):
         with pytest.raises(AssertionError):
-            con.send("Hello")
+            net.connect("0.0.0.0", None)
 
 
 con_var = None
