@@ -16,7 +16,7 @@ class Server:
                 while True:
                     data = conn.recv(1024)
                     if not data:
-                        break
+                        continue
                     print(data)
 
 
