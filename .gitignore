@@ -1,2 +1,5 @@
 .vscode
 .log
+__pycache__/
+library/__pycache__/
+test/__pycache__/
